@@ -3,6 +3,8 @@
 Usage: tools/build.py [--install]
 """
 import os, plistlib, subprocess, sys, zipfile
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from i18n import LANGS, DEFAULT, NOTIF
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WF = os.path.join(ROOT, "workflow")
@@ -16,7 +18,7 @@ CB = "A1C0F1E0-0003-4A00-8000-C0F1DE20A7E5"
 NT = "A1C0F1E0-0004-4A00-8000-C0F1DE20A7E5"
 EX = "A1C0F1E0-0005-4A00-8000-C0F1DE20A7E5"
 
-SCRIPT = r"""# 1. Selected paths from Finder (fallback: front window folder)
+SCRIPT_TEMPLATE = r"""# 1. Selected paths from Finder (fallback: front window folder)
 paths=$(osascript -e 'tell application "Finder"
   set sel to selection as alias list
   if sel is {} then
@@ -36,21 +38,18 @@ end tell' | sed -E 's:(.)/$:\1:' | tr -d '\r')
 # 2. Notification title in the OS language
 lang=$(defaults read -g AppleLanguages 2>/dev/null | sed -n 's/^ *"\([a-z][a-z]\).*/\1/p' | head -1)
 case "$lang" in
-  fr) title="Chemin copié" ;;
-  it) title="Percorso copiato" ;;
-  de) title="Pfad kopiert" ;;
-  pt) title="Caminho copiado" ;;
-  es) title="Ruta copiada" ;;
-  ja) title="パスをコピーしました" ;;
-  zh) title="路径已复制" ;;
-  el) title="Η διαδρομή αντιγράφηκε" ;;
-  *)  title="Path copied" ;;
+{CASES}
+  *)  title="{DEFAULT_TITLE}" ;;
 esac
 
 # 3. JSON for Alfred: arg = paths, variable title = localized
 esc() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' | awk '{printf "%s%s", (NR>1?"\\n":""), $0}'; }
 printf '{"alfredworkflow":{"arg":"%s","variables":{"title":"%s"}}}' "$(esc "$paths")" "$(esc "$title")"
 """
+
+CASES = "\n".join(f'  {c}) title="{NOTIF[c]}" ;;' for c in NOTIF if c != DEFAULT)
+SCRIPT = SCRIPT_TEMPLATE.replace("{CASES}", CASES).replace("{DEFAULT_TITLE}", NOTIF[DEFAULT])
+
 
 def conn(dst):
     return {"destinationuid": dst, "modifiers": 0, "modifiersubtext": "", "vitoclose": False}

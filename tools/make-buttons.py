@@ -3,14 +3,14 @@
 button underneath (label / filename). One image per language, floated right
 in the READMEs and fully clickable. Rendered @2x for retina."""
 from PIL import Image, ImageDraw, ImageFont
-import os
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from i18n import DOWNLOAD as LABELS, CJK
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "download"); os.makedirs(OUT, exist_ok=True)
 ICON = Image.open(os.path.join(ROOT, "workflow", "icon.png")).convert("RGBA")
 FILE = "Copy-Finder-Path.alfredworkflow"
-LABELS = {"en": "Download", "fr": "Télécharger", "de": "Herunterladen", "es": "Descargar",
-          "it": "Scarica", "pt": "Descarregar", "ja": "ダウンロード", "zh": "下载", "el": "Λήψη"}
 
 S = 2                              # retina scale
 W = 240 * S                        # image width
@@ -44,7 +44,7 @@ for code, label in LABELS.items():
     im.alpha_composite(top)
     d = ImageDraw.Draw(im)
     # top: arrow + label
-    f = cjk if code in ("ja", "zh") else bold
+    f = cjk if code in CJK else bold
     tw = d.textlength(label, font=f)
     aw = 14 * S
     x = (W - (aw + 10 * S + tw)) / 2

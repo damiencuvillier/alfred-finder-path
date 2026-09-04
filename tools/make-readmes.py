@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # Generates README.md (English) and README.<lang>.md at the repo root
 # from the translations below. Each file shows the 8 *other* languages as a flag row.
-import os
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from i18n import LANGS as _L, TITLE, DEFAULT
+LANGS = [(c, f, n) for c, f, n, *_ in _L]
 OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs(OUT, exist_ok=True)
 
-LANGS = [("en","🇬🇧","English"),("fr","🇫🇷","Français"),("de","🇩🇪","Deutsch"),
-         ("es","🇪🇸","Español"),("it","🇮🇹","Italiano"),("pt","🇵🇹","Português"),
-         ("ja","🇯🇵","日本語"),("zh","🇨🇳","中文"),("el","🇬🇷","Ελληνικά")]
 def fname(code):
-    return "README.md" if code == "en" else f"README.{code}.md"
+    return "README.md" if code == DEFAULT else f"README.{code}.md"
 
 def nav(current):
     cells = "".join(
@@ -101,7 +101,6 @@ MIT.
 
 T = {}
 T["en"] = dict(
- title="Copy fullpath from Finder",
  btn_alt="Download the workflow",
  pitch="One hotkey. The full path of whatever you have selected in Finder, straight to your clipboard.",
  tagline='No more right-click → hold ⌥ → hunt for "Copy as Pathname". Select, press **⇧⌘C**, paste.',
@@ -135,7 +134,6 @@ T["en"] = dict(
 )
 
 T["fr"] = dict(
- title="Copier le chemin complet depuis le Finder",
  btn_alt="Télécharger le workflow",
  pitch="Un raccourci. Le chemin complet de ce que vous avez sélectionné dans le Finder, directement dans le presse-papiers.",
  tagline="Fini le clic droit → maintenir ⌥ → chercher « Copier en tant que chemin ». Sélectionnez, pressez **⇧⌘C**, collez.",
@@ -169,7 +167,6 @@ T["fr"] = dict(
 )
 
 T["de"] = dict(
- title="Vollständigen Pfad aus dem Finder kopieren",
  btn_alt="Workflow herunterladen",
  pitch="Ein Hotkey. Der vollständige Pfad deiner Finder-Auswahl, direkt in der Zwischenablage.",
  tagline="Kein Rechtsklick → ⌥ halten → „Als Pfadname kopieren“ suchen mehr. Auswählen, **⇧⌘C** drücken, einfügen.",
@@ -203,7 +200,6 @@ T["de"] = dict(
 )
 
 T["es"] = dict(
- title="Copiar la ruta completa desde el Finder",
  btn_alt="Descargar el workflow",
  pitch="Un atajo. La ruta completa de lo que tengas seleccionado en el Finder, directa al portapapeles.",
  tagline="Se acabó el clic derecho → mantener ⌥ → buscar «Copiar como nombre de ruta». Selecciona, pulsa **⇧⌘C**, pega.",
@@ -237,7 +233,6 @@ T["es"] = dict(
 )
 
 T["it"] = dict(
- title="Copia il percorso completo dal Finder",
  btn_alt="Scarica il workflow",
  pitch="Una scorciatoia. Il percorso completo di ciò che hai selezionato nel Finder, direttamente negli appunti.",
  tagline="Basta clic destro → tenere ⌥ → cercare «Copia come percorso». Seleziona, premi **⇧⌘C**, incolla.",
@@ -271,7 +266,6 @@ T["it"] = dict(
 )
 
 T["pt"] = dict(
- title="Copiar o caminho completo do Finder",
  btn_alt="Descarregar o workflow",
  pitch="Um atalho. O caminho completo do que tiveres selecionado no Finder, direto para a área de transferência.",
  tagline="Acabou o clique direito → manter ⌥ → procurar «Copiar como nome de caminho». Seleciona, prime **⇧⌘C**, cola.",
@@ -305,7 +299,6 @@ T["pt"] = dict(
 )
 
 T["ja"] = dict(
- title="Finder からフルパスをコピー",
  btn_alt="ワークフローをダウンロード",
  pitch="ホットキーひとつ。Finder で選択した項目のフルパスを、そのままクリップボードへ。",
  tagline="右クリック → ⌥ を押しながら → 「パス名をコピー」を探す、はもう不要。選択して **⇧⌘C**、貼り付けるだけ。",
@@ -339,7 +332,6 @@ T["ja"] = dict(
 )
 
 T["zh"] = dict(
- title="从 Finder 复制完整路径",
  btn_alt="下载工作流",
  pitch="一个快捷键，把 Finder 中所选项目的完整路径直接送进剪贴板。",
  tagline="不用再右键 → 按住 ⌥ → 找“拷贝为路径名称”。选中，按 **⇧⌘C**，粘贴。",
@@ -373,7 +365,6 @@ T["zh"] = dict(
 )
 
 T["el"] = dict(
- title="Αντιγραφή πλήρους διαδρομής από το Finder",
  btn_alt="Λήψη του workflow",
  pitch="Μία συντόμευση. Η πλήρης διαδρομή ό,τι έχεις επιλέξει στο Finder, κατευθείαν στο πρόχειρο.",
  tagline="Τέλος το δεξί κλικ → κράτημα ⌥ → ψάξιμο για «Αντιγραφή ως όνομα διαδρομής». Επίλεξε, πάτα **⇧⌘C**, επικόλλησε.",
@@ -407,7 +398,7 @@ T["el"] = dict(
 )
 
 for code, _, _ in LANGS:
-    body = TEMPLATE.format(nav=nav(code), trigger=TRIGGER, code=code, **T[code])
+    body = TEMPLATE.format(nav=nav(code), trigger=TRIGGER, code=code, title=TITLE[code], **T[code])
     with open(os.path.join(OUT, fname(code)), "w") as f:
         f.write(body)
     print("→ " + fname(code))

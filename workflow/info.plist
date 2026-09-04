@@ -139,10 +139,10 @@ end tell' | sed -E 's:(.)/$:\1:' | tr -d '\r')
 lang=$(defaults read -g AppleLanguages 2&gt;/dev/null | sed -n 's/^ *"\([a-z][a-z]\).*/\1/p' | head -1)
 case "$lang" in
   fr) title="Chemin copié" ;;
-  it) title="Percorso copiato" ;;
   de) title="Pfad kopiert" ;;
-  pt) title="Caminho copiado" ;;
   es) title="Ruta copiada" ;;
+  it) title="Percorso copiato" ;;
+  pt) title="Caminho copiado" ;;
   ja) title="パスをコピーしました" ;;
   zh) title="路径已复制" ;;
   el) title="Η διαδρομή αντιγράφηκε" ;;
