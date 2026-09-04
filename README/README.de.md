@@ -71,4 +71,4 @@ MIT.
 
 ---
 
-Erstellt von [Damien](https://damiencuvillier.com) · Issues und PRs willkommen
+Erstellt von <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues und PRs willkommen

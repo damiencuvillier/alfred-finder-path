@@ -125,7 +125,7 @@ T["en"] = dict(
  idea3="Traditional Chinese for `zh-TW` / `zh-HK` by matching the full locale",
  h_refs="References", ref_docs="Workflows documentation", ref_vars="Workflow variables", ref_forum="Alfred Community Forum",
  h_license="License",
- footer="Made by [Damien](https://damiencuvillier.com) · Issues and PRs welcome",
+ footer="Made by <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues and PRs welcome",
 )
 
 T["fr"] = dict(
@@ -158,7 +158,7 @@ T["fr"] = dict(
  idea3="Chinois traditionnel pour `zh-TW` / `zh-HK` en testant la locale complète",
  h_refs="Références", ref_docs="Documentation des workflows", ref_vars="Variables de workflow", ref_forum="Forum de la communauté Alfred",
  h_license="Licence",
- footer="Réalisé par [Damien](https://damiencuvillier.com) · Issues et PRs bienvenues",
+ footer="Réalisé par <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues et PRs bienvenues",
 )
 
 T["de"] = dict(
@@ -191,7 +191,7 @@ T["de"] = dict(
  idea3="Traditionelles Chinesisch für `zh-TW` / `zh-HK` über die vollständige Locale",
  h_refs="Referenzen", ref_docs="Workflow-Dokumentation", ref_vars="Workflow-Variablen", ref_forum="Alfred Community Forum",
  h_license="Lizenz",
- footer="Erstellt von [Damien](https://damiencuvillier.com) · Issues und PRs willkommen",
+ footer="Erstellt von <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues und PRs willkommen",
 )
 
 T["es"] = dict(
@@ -224,7 +224,7 @@ T["es"] = dict(
  idea3="Chino tradicional para `zh-TW` / `zh-HK` comprobando la locale completa",
  h_refs="Referencias", ref_docs="Documentación de workflows", ref_vars="Variables de workflow", ref_forum="Foro de la comunidad Alfred",
  h_license="Licencia",
- footer="Hecho por [Damien](https://damiencuvillier.com) · Issues y PRs bienvenidos",
+ footer="Hecho por <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues y PRs bienvenidos",
 )
 
 T["it"] = dict(
@@ -257,7 +257,7 @@ T["it"] = dict(
  idea3="Cinese tradizionale per `zh-TW` / `zh-HK` controllando la locale completa",
  h_refs="Riferimenti", ref_docs="Documentazione dei workflow", ref_vars="Variabili di workflow", ref_forum="Forum della community Alfred",
  h_license="Licenza",
- footer="Realizzato da [Damien](https://damiencuvillier.com) · Issue e PR benvenute",
+ footer="Realizzato da <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue e PR benvenute",
 )
 
 T["pt"] = dict(
@@ -290,7 +290,7 @@ T["pt"] = dict(
  idea3="Chinês tradicional para `zh-TW` / `zh-HK` verificando a locale completa",
  h_refs="Referências", ref_docs="Documentação de workflows", ref_vars="Variáveis de workflow", ref_forum="Fórum da comunidade Alfred",
  h_license="Licença",
- footer="Feito por [Damien](https://damiencuvillier.com) · Issues e PRs bem-vindos",
+ footer="Feito por <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues e PRs bem-vindos",
 )
 
 T["ja"] = dict(
@@ -323,7 +323,7 @@ T["ja"] = dict(
  idea3="`zh-TW` / `zh-HK` はロケール全体を判定して繁体字中国語に",
  h_refs="参考リンク", ref_docs="ワークフローのドキュメント", ref_vars="ワークフロー変数", ref_forum="Alfred コミュニティフォーラム",
  h_license="ライセンス",
- footer="作者：[Damien](https://damiencuvillier.com) · Issue や PR を歓迎します",
+ footer="作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue や PR を歓迎します",
 )
 
 T["zh"] = dict(
@@ -356,7 +356,7 @@ T["zh"] = dict(
  idea3="判断完整 locale，为 `zh-TW` / `zh-HK` 提供繁体中文",
  h_refs="参考", ref_docs="工作流文档", ref_vars="工作流变量", ref_forum="Alfred 社区论坛",
  h_license="许可证",
- footer="作者：[Damien](https://damiencuvillier.com) · 欢迎提交 Issue 和 PR",
+ footer="作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · 欢迎提交 Issue 和 PR",
 )
 
 T["el"] = dict(
@@ -389,7 +389,7 @@ T["el"] = dict(
  idea3="Παραδοσιακά Κινεζικά για `zh-TW` / `zh-HK` ελέγχοντας ολόκληρο το locale",
  h_refs="Αναφορές", ref_docs="Τεκμηρίωση workflows", ref_vars="Μεταβλητές workflow", ref_forum="Φόρουμ κοινότητας Alfred",
  h_license="Άδεια",
- footer="Από τον [Damien](https://damiencuvillier.com) · Issues και PRs ευπρόσδεκτα",
+ footer="Από τον <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues και PRs ευπρόσδεκτα",
 )
 
 for code, _, _ in LANGS:

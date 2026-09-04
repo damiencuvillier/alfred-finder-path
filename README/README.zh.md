@@ -71,4 +71,4 @@ MIT.
 
 ---
 
-作者：[Damien](https://damiencuvillier.com) · 欢迎提交 Issue 和 PR
+作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · 欢迎提交 Issue 和 PR

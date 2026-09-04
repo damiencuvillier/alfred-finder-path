@@ -71,4 +71,4 @@ MIT.
 
 ---
 
-Realizzato da [Damien](https://damiencuvillier.com) · Issue e PR benvenute
+Realizzato da <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue e PR benvenute

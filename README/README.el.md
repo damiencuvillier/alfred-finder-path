@@ -71,4 +71,4 @@ MIT.
 
 ---
 
-Από τον [Damien](https://damiencuvillier.com) · Issues και PRs ευπρόσδεκτα
+Από τον <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues και PRs ευπρόσδεκτα
