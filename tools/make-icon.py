@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Generate icon.png (512x512) for the Copy Finder Path workflow.
+"""Generate workflow/icon.png (512x512) for the Copy Finder Path workflow.
 Clipboard with a bold slash — "path to clipboard"."""
 from PIL import Image, ImageDraw, ImageFont
 import os
 
 S = 4                      # supersampling
 N = 512 * S
-HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 img = Image.new("RGBA", (N, N), (0, 0, 0, 0))
 d = ImageDraw.Draw(img)
@@ -39,6 +39,6 @@ d.rounded_rectangle([cx - cw * 0.32, y0 - ch * 0.20, cx + cw * 0.32, y0 + ch * 0
 slash = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", int(N * 0.66), index=1)
 d.text((cx, cy + N * 0.07), "/", font=slash, fill=(255, 173, 51, 255), anchor="mm")
 
-out = os.path.join(HERE, "icon.png")
+out = os.path.join(ROOT, "workflow", "icon.png")
 img.resize((512, 512), Image.LANCZOS).save(out)
-print("→ icon.png")
+print("→ workflow/icon.png")

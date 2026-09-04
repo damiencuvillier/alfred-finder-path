@@ -1,14 +1,17 @@
-<img src="../icon.png" width="128" align="right" alt="Copy Finder Path icon">
+<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/it.png" width="240" align="right" alt="Scarica il workflow"></a>
 
-# Copy Finder Path — [Alfred](https://www.alfredapp.com) Workflow
+<table>
+  <tr><td align="center"><a href="README.md"><img src="assets/flags/en.png" width="40" alt="English"></a><br><a href="README.md"><sub>English</sub></a></td><td align="center"><a href="README.fr.md"><img src="assets/flags/fr.png" width="40" alt="Français"></a><br><a href="README.fr.md"><sub>Français</sub></a></td><td align="center"><a href="README.de.md"><img src="assets/flags/de.png" width="40" alt="Deutsch"></a><br><a href="README.de.md"><sub>Deutsch</sub></a></td><td align="center"><a href="README.es.md"><img src="assets/flags/es.png" width="40" alt="Español"></a><br><a href="README.es.md"><sub>Español</sub></a></td><td align="center"><a href="README.pt.md"><img src="assets/flags/pt.png" width="40" alt="Português"></a><br><a href="README.pt.md"><sub>Português</sub></a></td><td align="center"><a href="README.ja.md"><img src="assets/flags/ja.png" width="40" alt="日本語"></a><br><a href="README.ja.md"><sub>日本語</sub></a></td><td align="center"><a href="README.zh.md"><img src="assets/flags/zh.png" width="40" alt="中文"></a><br><a href="README.zh.md"><sub>中文</sub></a></td><td align="center"><a href="README.el.md"><img src="assets/flags/el.png" width="40" alt="Ελληνικά"></a><br><a href="README.el.md"><sub>Ελληνικά</sub></a></td></tr>
+</table>
 
-← [Torna alla panoramica](../README.md)
+###### ALFRED WORKFLOW
+# Copia il percorso completo dal Finder
 
 **Una scorciatoia. Il percorso completo di ciò che hai selezionato nel Finder, direttamente negli appunti.**
 
 Basta clic destro → tenere ⌥ → cercare «Copia come percorso». Seleziona, premi **⇧⌘C**, incolla.
 
-<img src="../screenshots/usage.png" width="640" alt="Selezione del Finder copiata negli appunti">
+<img src="screenshots/usage.png" width="640" alt="Selezione del Finder copiata negli appunti">
 
 ## ✨ Cosa fa
 
@@ -28,7 +31,7 @@ Richiede [Alfred 5](https://www.alfredapp.com) con il [Powerpack](https://www.al
 
 ## 🔧 Come funziona
 
-<img src="../screenshots/settings.png" width="640" alt="Canvas del workflow in Alfred">
+<img src="screenshots/settings.png" width="640" alt="Canvas del workflow in Alfred">
 
 Un AppleScript chiede al Finder la selezione, poche righe di bash ripuliscono i percorsi e Alfred mette il risultato negli appunti. Nessuna dipendenza: funziona su un macOS standard.
 
@@ -40,12 +43,13 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 
 ## 🛠 Sviluppo
 
-Tutto il workflow è in `build.py`: `info.plist` e il bundle `.alfredworkflow` vengono generati da lì.
+Tutto il workflow è in `tools/build.py`: `workflow/info.plist` e il bundle `dist/Copy-Finder-Path.alfredworkflow` vengono generati da lì.
 
 ```bash
-./build.py            # rigenera info.plist + Copy-Finder-Path.alfredworkflow
-./build.py --install  # …e lo apre in Alfred
-./make_icon.py        # rigenera icon.png
+tools/build.py            # rigenera workflow/info.plist + dist/*.alfredworkflow
+tools/build.py --install  # …e lo apre in Alfred
+tools/make-icon.py        # rigenera workflow/icon.png
+tools/make-readmes.py     # rigenera tutti i README
 ```
 
 Gli UID sono stabili, quindi reimportare aggiorna il workflow esistente sul posto.

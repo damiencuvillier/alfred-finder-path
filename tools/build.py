@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Génère info.plist et empaquette Copy-Finder-Path.alfredworkflow.
-Usage: ./build.py [--install]
+"""Generate workflow/info.plist and package dist/Copy-Finder-Path.alfredworkflow.
+Usage: tools/build.py [--install]
 """
 import os, plistlib, subprocess, sys, zipfile
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "Copy-Finder-Path.alfredworkflow")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+WF = os.path.join(ROOT, "workflow")
+DIST = os.path.join(ROOT, "dist")
+OUT = os.path.join(DIST, "Copy-Finder-Path.alfredworkflow")
 
-# UIDs stables → réimport sans doublon, hotkey conservé
+# Stable UIDs: re-import updates in place, hotkey preserved
 HK = "A1C0F1E0-0001-4A00-8000-C0F1DE20A7E5"
 SC = "A1C0F1E0-0002-4A00-8000-C0F1DE20A7E5"
 CB = "A1C0F1E0-0003-4A00-8000-C0F1DE20A7E5"
@@ -90,16 +92,18 @@ WORKFLOW = {
 }
 
 if __name__ == "__main__":
-    plist = os.path.join(HERE, "info.plist")
+    os.makedirs(DIST, exist_ok=True)
+    plist = os.path.join(WF, "info.plist")
     with open(plist, "wb") as f:
         plistlib.dump(WORKFLOW, f)
     if os.path.exists(OUT):
         os.remove(OUT)
     with zipfile.ZipFile(OUT, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(plist, "info.plist")
-        icon = os.path.join(HERE, "icon.png")
+        icon = os.path.join(WF, "icon.png")
         if os.path.exists(icon):
             z.write(icon, "icon.png")
-    print(f"→ {os.path.basename(OUT)}")
+    print("→ workflow/info.plist")
+    print(f"→ dist/{os.path.basename(OUT)}")
     if "--install" in sys.argv:
         subprocess.run(["open", OUT], check=True)

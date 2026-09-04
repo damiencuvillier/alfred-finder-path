@@ -1,14 +1,17 @@
-<img src="../icon.png" width="128" align="right" alt="Copy Finder Path icon">
+<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/el.png" width="240" align="right" alt="Λήψη του workflow"></a>
 
-# Copy Finder Path — [Alfred](https://www.alfredapp.com) Workflow
+<table>
+  <tr><td align="center"><a href="README.md"><img src="assets/flags/en.png" width="40" alt="English"></a><br><a href="README.md"><sub>English</sub></a></td><td align="center"><a href="README.fr.md"><img src="assets/flags/fr.png" width="40" alt="Français"></a><br><a href="README.fr.md"><sub>Français</sub></a></td><td align="center"><a href="README.de.md"><img src="assets/flags/de.png" width="40" alt="Deutsch"></a><br><a href="README.de.md"><sub>Deutsch</sub></a></td><td align="center"><a href="README.es.md"><img src="assets/flags/es.png" width="40" alt="Español"></a><br><a href="README.es.md"><sub>Español</sub></a></td><td align="center"><a href="README.it.md"><img src="assets/flags/it.png" width="40" alt="Italiano"></a><br><a href="README.it.md"><sub>Italiano</sub></a></td><td align="center"><a href="README.pt.md"><img src="assets/flags/pt.png" width="40" alt="Português"></a><br><a href="README.pt.md"><sub>Português</sub></a></td><td align="center"><a href="README.ja.md"><img src="assets/flags/ja.png" width="40" alt="日本語"></a><br><a href="README.ja.md"><sub>日本語</sub></a></td><td align="center"><a href="README.zh.md"><img src="assets/flags/zh.png" width="40" alt="中文"></a><br><a href="README.zh.md"><sub>中文</sub></a></td></tr>
+</table>
 
-← [Επιστροφή στην επισκόπηση](../README.md)
+###### ALFRED WORKFLOW
+# Αντιγραφή πλήρους διαδρομής από το Finder
 
 **Μία συντόμευση. Η πλήρης διαδρομή ό,τι έχεις επιλέξει στο Finder, κατευθείαν στο πρόχειρο.**
 
 Τέλος το δεξί κλικ → κράτημα ⌥ → ψάξιμο για «Αντιγραφή ως όνομα διαδρομής». Επίλεξε, πάτα **⇧⌘C**, επικόλλησε.
 
-<img src="../screenshots/usage.png" width="640" alt="Η επιλογή του Finder αντιγράφηκε στο πρόχειρο">
+<img src="screenshots/usage.png" width="640" alt="Η επιλογή του Finder αντιγράφηκε στο πρόχειρο">
 
 ## ✨ Τι κάνει
 
@@ -28,7 +31,7 @@
 
 ## 🔧 Πώς λειτουργεί
 
-<img src="../screenshots/settings.png" width="640" alt="Ο καμβάς του workflow στο Alfred">
+<img src="screenshots/settings.png" width="640" alt="Ο καμβάς του workflow στο Alfred">
 
 Ένα AppleScript ζητά από το Finder την επιλογή, λίγες γραμμές bash καθαρίζουν τις διαδρομές και το Alfred βάζει το αποτέλεσμα στο πρόχειρο. Χωρίς εξαρτήσεις — τρέχει σε ένα καθαρό macOS.
 
@@ -40,12 +43,13 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 
 ## 🛠 Ανάπτυξη
 
-Ολόκληρο το workflow βρίσκεται στο `build.py` — το `info.plist` και το πακέτο `.alfredworkflow` παράγονται από αυτό.
+Ολόκληρο το workflow βρίσκεται στο `tools/build.py` — το `workflow/info.plist` και το πακέτο `dist/Copy-Finder-Path.alfredworkflow` παράγονται από αυτό.
 
 ```bash
-./build.py            # αναδημιουργεί info.plist + Copy-Finder-Path.alfredworkflow
-./build.py --install  # …και το ανοίγει στο Alfred
-./make_icon.py        # αναδημιουργεί το icon.png
+tools/build.py            # αναδημιουργεί workflow/info.plist + dist/*.alfredworkflow
+tools/build.py --install  # …και το ανοίγει στο Alfred
+tools/make-icon.py        # αναδημιουργεί το workflow/icon.png
+tools/make-readmes.py     # αναδημιουργεί όλα τα README
 ```
 
 Τα UID είναι σταθερά, οπότε η επανεισαγωγή ενημερώνει το υπάρχον workflow επιτόπου.

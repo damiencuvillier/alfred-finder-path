@@ -1,14 +1,17 @@
-<img src="../icon.png" width="128" align="right" alt="Copy Finder Path icon">
+<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/zh.png" width="240" align="right" alt="下载工作流"></a>
 
-# Copy Finder Path — [Alfred](https://www.alfredapp.com) Workflow
+<table>
+  <tr><td align="center"><a href="README.md"><img src="assets/flags/en.png" width="40" alt="English"></a><br><a href="README.md"><sub>English</sub></a></td><td align="center"><a href="README.fr.md"><img src="assets/flags/fr.png" width="40" alt="Français"></a><br><a href="README.fr.md"><sub>Français</sub></a></td><td align="center"><a href="README.de.md"><img src="assets/flags/de.png" width="40" alt="Deutsch"></a><br><a href="README.de.md"><sub>Deutsch</sub></a></td><td align="center"><a href="README.es.md"><img src="assets/flags/es.png" width="40" alt="Español"></a><br><a href="README.es.md"><sub>Español</sub></a></td><td align="center"><a href="README.it.md"><img src="assets/flags/it.png" width="40" alt="Italiano"></a><br><a href="README.it.md"><sub>Italiano</sub></a></td><td align="center"><a href="README.pt.md"><img src="assets/flags/pt.png" width="40" alt="Português"></a><br><a href="README.pt.md"><sub>Português</sub></a></td><td align="center"><a href="README.ja.md"><img src="assets/flags/ja.png" width="40" alt="日本語"></a><br><a href="README.ja.md"><sub>日本語</sub></a></td><td align="center"><a href="README.el.md"><img src="assets/flags/el.png" width="40" alt="Ελληνικά"></a><br><a href="README.el.md"><sub>Ελληνικά</sub></a></td></tr>
+</table>
 
-← [返回概览](../README.md)
+###### ALFRED WORKFLOW
+# 从 Finder 复制完整路径
 
 **一个快捷键，把 Finder 中所选项目的完整路径直接送进剪贴板。**
 
 不用再右键 → 按住 ⌥ → 找“拷贝为路径名称”。选中，按 **⇧⌘C**，粘贴。
 
-<img src="../screenshots/usage.png" width="640" alt="Finder 选中项已复制到剪贴板">
+<img src="screenshots/usage.png" width="640" alt="Finder 选中项已复制到剪贴板">
 
 ## ✨ 功能
 
@@ -28,7 +31,7 @@
 
 ## 🔧 工作原理
 
-<img src="../screenshots/settings.png" width="640" alt="Alfred 中的工作流画布">
+<img src="screenshots/settings.png" width="640" alt="Alfred 中的工作流画布">
 
 一段 AppleScript 向 Finder 获取选中项，几行 bash 整理路径，Alfred 把结果放入剪贴板。零依赖，原生 macOS 即可运行。
 
@@ -40,12 +43,13 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 
 ## 🛠 开发
 
-整个工作流都在 `build.py` 中，`info.plist` 与 `.alfredworkflow` 包由它生成。
+整个工作流都在 `tools/build.py` 中，`workflow/info.plist` 与 `dist/Copy-Finder-Path.alfredworkflow` 包由它生成。
 
 ```bash
-./build.py            # 重新生成 info.plist 与 Copy-Finder-Path.alfredworkflow
-./build.py --install  # …并在 Alfred 中打开
-./make_icon.py        # 重新生成 icon.png
+tools/build.py            # 重新生成 workflow/info.plist + dist/*.alfredworkflow
+tools/build.py --install  # …并在 Alfred 中打开
+tools/make-icon.py        # 重新生成 workflow/icon.png
+tools/make-readmes.py     # 重新生成所有 README
 ```
 
 UID 固定不变，重新导入会原地更新已有工作流。

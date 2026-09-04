@@ -1,3 +1,2 @@
-info.plist
-*.alfredworkflow
 __pycache__/
+.DS_Store

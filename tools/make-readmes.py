@@ -1,34 +1,38 @@
 #!/usr/bin/env python3
-# Generates README/README.<lang>.md from translations below.
+# Generates README.md (English) and README.<lang>.md at the repo root
+# from the translations below. Each file shows the 8 *other* languages as a flag row.
 import os
-OUT = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs(OUT, exist_ok=True)
 
 LANGS = [("en","🇬🇧","English"),("fr","🇫🇷","Français"),("de","🇩🇪","Deutsch"),
          ("es","🇪🇸","Español"),("it","🇮🇹","Italiano"),("pt","🇵🇹","Português"),
          ("ja","🇯🇵","日本語"),("zh","🇨🇳","中文"),("el","🇬🇷","Ελληνικά")]
-def _table():
-    rows = []
-    for i in range(0, 9, 3):
-        cells = "".join(f'<td align="center" width="33%"><a href="README.{c}.md"><h1>{f}</h1>{n}</a></td>' for c, f, n in LANGS[i:i+3])
-        rows.append(f"  <tr>{cells}</tr>")
-    return "<table>\n" + "\n".join(rows) + "\n</table>"
-NAV = "{back}"
+def fname(code):
+    return "README.md" if code == "en" else f"README.{code}.md"
+
+def nav(current):
+    cells = "".join(
+        f'<td align="center"><a href="{fname(c)}"><img src="assets/flags/{c}.png" width="40" alt="{n}"></a><br>'
+        f'<a href="{fname(c)}"><sub>{n}</sub></a></td>'
+        for c, _, n in LANGS if c != current)
+    return f"<table>\n  <tr>{cells}</tr>\n</table>"
 
 TRIGGER = 'tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" in workflow "dev.gotan.alfred.copyfinderpath"'
 JSON = '`{"alfredworkflow":{"arg":"<paths>","variables":{"title":"<localized title>"}}}`'
 
-TEMPLATE = """<img src="../icon.png" width="128" align="right" alt="Copy Finder Path icon">
-
-# Copy Finder Path — [Alfred](https://www.alfredapp.com) Workflow
+TEMPLATE = """<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/{code}.png" width="240" align="right" alt="{btn_alt}"></a>
 
 {nav}
+
+###### ALFRED WORKFLOW
+# {title}
 
 **{pitch}**
 
 {tagline}
 
-<img src="../screenshots/usage.png" width="640" alt="{alt_usage}">
+<img src="screenshots/usage.png" width="640" alt="{alt_usage}">
 
 ## ✨ {h_what}
 
@@ -48,7 +52,7 @@ TEMPLATE = """<img src="../icon.png" width="128" align="right" alt="Copy Finder 
 
 ## 🔧 {h_how}
 
-<img src="../screenshots/settings.png" width="640" alt="{alt_settings}">
+<img src="screenshots/settings.png" width="640" alt="{alt_settings}">
 
 {how_p}
 
@@ -63,9 +67,10 @@ TEMPLATE = """<img src="../icon.png" width="128" align="right" alt="Copy Finder 
 {dev_p}
 
 ```bash
-./build.py            # {c1}
-./build.py --install  # {c2}
-./make_icon.py        # {c3}
+tools/build.py            # {c1}
+tools/build.py --install  # {c2}
+tools/make-icon.py        # {c3}
+tools/make-readmes.py     # {c4}
 ```
 
 {uids}
@@ -96,7 +101,8 @@ MIT.
 
 T = {}
 T["en"] = dict(
- back="Back to overview",
+ title="Copy fullpath from Finder",
+ btn_alt="Download the workflow",
  pitch="One hotkey. The full path of whatever you have selected in Finder, straight to your clipboard.",
  tagline='No more right-click → hold ⌥ → hunt for "Copy as Pathname". Select, press **⇧⌘C**, paste.',
  alt_usage="Finder selection copied to clipboard", alt_settings="Workflow canvas in Alfred",
@@ -115,8 +121,8 @@ T["en"] = dict(
  how_p="An AppleScript asks Finder for its selection, a few lines of bash tidy the paths up, and Alfred puts the result on the clipboard. No dependencies — runs on a stock macOS install.",
  trigger_p="The workflow also exposes an [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) named `copy-path`, so you can fire it from anywhere:",
  h_dev="Development",
- dev_p="The whole workflow lives in `build.py` — `info.plist` and the `.alfredworkflow` bundle are generated from it.",
- c1="regenerate info.plist + Copy-Finder-Path.alfredworkflow", c2="…and open it in Alfred", c3="regenerate icon.png",
+ dev_p="The whole workflow lives in `tools/build.py` — `workflow/info.plist` and `dist/Copy-Finder-Path.alfredworkflow` are generated from it.",
+ c1="regenerate workflow/info.plist + dist/*.alfredworkflow", c2="…and open it in Alfred", c3="regenerate workflow/icon.png", c4="regenerate all README files",
  uids="UIDs are stable, so re-importing updates the existing workflow in place.",
  hood=f"**Under the hood**, the Run Script block emits [Alfred's JSON format](https://www.alfredapp.com/help/workflows/utilities/json/): {JSON}. `arg` feeds the clipboard, `title` (picked from `AppleLanguages`) feeds the notification via `{{var:title}}`. The workflow description and readme are static metadata and stay in English.",
  h_ideas="Ideas / easy tweaks",
@@ -129,7 +135,8 @@ T["en"] = dict(
 )
 
 T["fr"] = dict(
- back="Retour à l'accueil",
+ title="Copier le chemin complet depuis le Finder",
+ btn_alt="Télécharger le workflow",
  pitch="Un raccourci. Le chemin complet de ce que vous avez sélectionné dans le Finder, directement dans le presse-papiers.",
  tagline="Fini le clic droit → maintenir ⌥ → chercher « Copier en tant que chemin ». Sélectionnez, pressez **⇧⌘C**, collez.",
  alt_usage="Sélection Finder copiée dans le presse-papiers", alt_settings="Canvas du workflow dans Alfred",
@@ -148,8 +155,8 @@ T["fr"] = dict(
  how_p="Un AppleScript demande au Finder sa sélection, quelques lignes de bash nettoient les chemins, et Alfred place le résultat dans le presse-papiers. Aucune dépendance — fonctionne sur un macOS standard.",
  trigger_p="Le workflow expose aussi un [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) nommé `copy-path`, pour le déclencher depuis n'importe où :",
  h_dev="Développement",
- dev_p="Tout le workflow tient dans `build.py` — `info.plist` et le bundle `.alfredworkflow` en sont générés.",
- c1="régénère info.plist + Copy-Finder-Path.alfredworkflow", c2="…et l'ouvre dans Alfred", c3="régénère icon.png",
+ dev_p="Tout le workflow tient dans `tools/build.py` — `workflow/info.plist` et le bundle `dist/Copy-Finder-Path.alfredworkflow` en sont générés.",
+ c1="régénère workflow/info.plist + dist/*.alfredworkflow", c2="…et l'ouvre dans Alfred", c3="régénère workflow/icon.png", c4="régénère tous les README",
  uids="Les UIDs sont stables : réimporter met à jour le workflow existant sur place.",
  hood=f"**Sous le capot**, le bloc Run Script émet du [JSON Alfred](https://www.alfredapp.com/help/workflows/utilities/json/) : {JSON}. `arg` alimente le presse-papiers, `title` (choisi d'après `AppleLanguages`) alimente la notification via `{{var:title}}`. La description et le readme du workflow sont des métadonnées statiques et restent en anglais.",
  h_ideas="Idées / variantes faciles",
@@ -162,7 +169,8 @@ T["fr"] = dict(
 )
 
 T["de"] = dict(
- back="Zurück zur Übersicht",
+ title="Vollständigen Pfad aus dem Finder kopieren",
+ btn_alt="Workflow herunterladen",
  pitch="Ein Hotkey. Der vollständige Pfad deiner Finder-Auswahl, direkt in der Zwischenablage.",
  tagline="Kein Rechtsklick → ⌥ halten → „Als Pfadname kopieren“ suchen mehr. Auswählen, **⇧⌘C** drücken, einfügen.",
  alt_usage="Finder-Auswahl in die Zwischenablage kopiert", alt_settings="Workflow-Canvas in Alfred",
@@ -181,8 +189,8 @@ T["de"] = dict(
  how_p="Ein AppleScript fragt den Finder nach der Auswahl, ein paar Zeilen Bash bereinigen die Pfade, und Alfred legt das Ergebnis in die Zwischenablage. Keine Abhängigkeiten – läuft auf jedem Standard-macOS.",
  trigger_p="Der Workflow stellt außerdem einen [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) namens `copy-path` bereit, um ihn von überall auszulösen:",
  h_dev="Entwicklung",
- dev_p="Der gesamte Workflow steckt in `build.py` – `info.plist` und das `.alfredworkflow`-Bundle werden daraus erzeugt.",
- c1="info.plist + Copy-Finder-Path.alfredworkflow neu erzeugen", c2="…und in Alfred öffnen", c3="icon.png neu erzeugen",
+ dev_p="Der gesamte Workflow steckt in `tools/build.py` – `workflow/info.plist` und das `dist/Copy-Finder-Path.alfredworkflow`-Bundle werden daraus erzeugt.",
+ c1="workflow/info.plist + dist/*.alfredworkflow neu erzeugen", c2="…und in Alfred öffnen", c3="workflow/icon.png neu erzeugen", c4="alle README-Dateien neu erzeugen",
  uids="Die UIDs sind stabil, ein erneuter Import aktualisiert den bestehenden Workflow an Ort und Stelle.",
  hood=f"**Unter der Haube** gibt der Run-Script-Block [Alfred-JSON](https://www.alfredapp.com/help/workflows/utilities/json/) aus: {JSON}. `arg` füllt die Zwischenablage, `title` (aus `AppleLanguages` gewählt) die Mitteilung über `{{var:title}}`. Beschreibung und Readme des Workflows sind statische Metadaten und bleiben auf Englisch.",
  h_ideas="Ideen / einfache Anpassungen",
@@ -195,7 +203,8 @@ T["de"] = dict(
 )
 
 T["es"] = dict(
- back="Volver al inicio",
+ title="Copiar la ruta completa desde el Finder",
+ btn_alt="Descargar el workflow",
  pitch="Un atajo. La ruta completa de lo que tengas seleccionado en el Finder, directa al portapapeles.",
  tagline="Se acabó el clic derecho → mantener ⌥ → buscar «Copiar como nombre de ruta». Selecciona, pulsa **⇧⌘C**, pega.",
  alt_usage="Selección del Finder copiada al portapapeles", alt_settings="Lienzo del workflow en Alfred",
@@ -214,8 +223,8 @@ T["es"] = dict(
  how_p="Un AppleScript pide al Finder su selección, unas líneas de bash limpian las rutas y Alfred deja el resultado en el portapapeles. Sin dependencias: funciona en un macOS estándar.",
  trigger_p="El workflow también expone un [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) llamado `copy-path`, para lanzarlo desde cualquier sitio:",
  h_dev="Desarrollo",
- dev_p="Todo el workflow vive en `build.py`: `info.plist` y el paquete `.alfredworkflow` se generan a partir de él.",
- c1="regenera info.plist + Copy-Finder-Path.alfredworkflow", c2="…y lo abre en Alfred", c3="regenera icon.png",
+ dev_p="Todo el workflow vive en `tools/build.py`: `workflow/info.plist` y el paquete `dist/Copy-Finder-Path.alfredworkflow` se generan a partir de él.",
+ c1="regenera workflow/info.plist + dist/*.alfredworkflow", c2="…y lo abre en Alfred", c3="regenera workflow/icon.png", c4="regenera todos los README",
  uids="Los UIDs son estables, así que reimportar actualiza el workflow existente en su sitio.",
  hood=f"**Por dentro**, el bloque Run Script emite [JSON de Alfred](https://www.alfredapp.com/help/workflows/utilities/json/): {JSON}. `arg` alimenta el portapapeles y `title` (elegido según `AppleLanguages`) la notificación mediante `{{var:title}}`. La descripción y el readme del workflow son metadatos estáticos y se quedan en inglés.",
  h_ideas="Ideas / ajustes fáciles",
@@ -228,7 +237,8 @@ T["es"] = dict(
 )
 
 T["it"] = dict(
- back="Torna alla panoramica",
+ title="Copia il percorso completo dal Finder",
+ btn_alt="Scarica il workflow",
  pitch="Una scorciatoia. Il percorso completo di ciò che hai selezionato nel Finder, direttamente negli appunti.",
  tagline="Basta clic destro → tenere ⌥ → cercare «Copia come percorso». Seleziona, premi **⇧⌘C**, incolla.",
  alt_usage="Selezione del Finder copiata negli appunti", alt_settings="Canvas del workflow in Alfred",
@@ -247,8 +257,8 @@ T["it"] = dict(
  how_p="Un AppleScript chiede al Finder la selezione, poche righe di bash ripuliscono i percorsi e Alfred mette il risultato negli appunti. Nessuna dipendenza: funziona su un macOS standard.",
  trigger_p="Il workflow espone anche un [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) chiamato `copy-path`, per lanciarlo da qualsiasi punto:",
  h_dev="Sviluppo",
- dev_p="Tutto il workflow è in `build.py`: `info.plist` e il bundle `.alfredworkflow` vengono generati da lì.",
- c1="rigenera info.plist + Copy-Finder-Path.alfredworkflow", c2="…e lo apre in Alfred", c3="rigenera icon.png",
+ dev_p="Tutto il workflow è in `tools/build.py`: `workflow/info.plist` e il bundle `dist/Copy-Finder-Path.alfredworkflow` vengono generati da lì.",
+ c1="rigenera workflow/info.plist + dist/*.alfredworkflow", c2="…e lo apre in Alfred", c3="rigenera workflow/icon.png", c4="rigenera tutti i README",
  uids="Gli UID sono stabili, quindi reimportare aggiorna il workflow esistente sul posto.",
  hood=f"**Sotto il cofano**, il blocco Run Script emette [JSON Alfred](https://www.alfredapp.com/help/workflows/utilities/json/): {JSON}. `arg` alimenta gli appunti, `title` (scelto da `AppleLanguages`) alimenta la notifica tramite `{{var:title}}`. Descrizione e readme del workflow sono metadati statici e restano in inglese.",
  h_ideas="Idee / modifiche facili",
@@ -261,7 +271,8 @@ T["it"] = dict(
 )
 
 T["pt"] = dict(
- back="Voltar ao início",
+ title="Copiar o caminho completo do Finder",
+ btn_alt="Descarregar o workflow",
  pitch="Um atalho. O caminho completo do que tiveres selecionado no Finder, direto para a área de transferência.",
  tagline="Acabou o clique direito → manter ⌥ → procurar «Copiar como nome de caminho». Seleciona, prime **⇧⌘C**, cola.",
  alt_usage="Seleção do Finder copiada para a área de transferência", alt_settings="Canvas do workflow no Alfred",
@@ -280,8 +291,8 @@ T["pt"] = dict(
  how_p="Um AppleScript pede ao Finder a seleção, algumas linhas de bash limpam os caminhos e o Alfred coloca o resultado na área de transferência. Sem dependências — funciona num macOS de origem.",
  trigger_p="O workflow expõe também um [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) chamado `copy-path`, para o disparar de qualquer lado:",
  h_dev="Desenvolvimento",
- dev_p="Todo o workflow vive em `build.py` — o `info.plist` e o pacote `.alfredworkflow` são gerados a partir dele.",
- c1="regenera info.plist + Copy-Finder-Path.alfredworkflow", c2="…e abre-o no Alfred", c3="regenera icon.png",
+ dev_p="Todo o workflow vive em `tools/build.py` — o `workflow/info.plist` e o pacote `dist/Copy-Finder-Path.alfredworkflow` são gerados a partir dele.",
+ c1="regenera workflow/info.plist + dist/*.alfredworkflow", c2="…e abre-o no Alfred", c3="regenera workflow/icon.png", c4="regenera todos os README",
  uids="Os UIDs são estáveis, por isso reimportar atualiza o workflow existente no lugar.",
  hood=f"**Por baixo do capô**, o bloco Run Script emite [JSON do Alfred](https://www.alfredapp.com/help/workflows/utilities/json/): {JSON}. `arg` alimenta a área de transferência, `title` (escolhido a partir de `AppleLanguages`) alimenta a notificação via `{{var:title}}`. A descrição e o readme do workflow são metadados estáticos e ficam em inglês.",
  h_ideas="Ideias / ajustes fáceis",
@@ -294,7 +305,8 @@ T["pt"] = dict(
 )
 
 T["ja"] = dict(
- back="概要に戻る",
+ title="Finder からフルパスをコピー",
+ btn_alt="ワークフローをダウンロード",
  pitch="ホットキーひとつ。Finder で選択した項目のフルパスを、そのままクリップボードへ。",
  tagline="右クリック → ⌥ を押しながら → 「パス名をコピー」を探す、はもう不要。選択して **⇧⌘C**、貼り付けるだけ。",
  alt_usage="Finder の選択項目がクリップボードにコピーされた様子", alt_settings="Alfred のワークフローキャンバス",
@@ -313,8 +325,8 @@ T["ja"] = dict(
  how_p="AppleScript が Finder に選択項目を問い合わせ、数行の bash がパスを整え、Alfred が結果をクリップボードに入れます。依存なし。素の macOS で動きます。",
  trigger_p="`copy-path` という名前の [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) も用意しているので、どこからでも呼び出せます：",
  h_dev="開発",
- dev_p="ワークフロー全体は `build.py` にあります。`info.plist` と `.alfredworkflow` バンドルはそこから生成されます。",
- c1="info.plist と Copy-Finder-Path.alfredworkflow を再生成", c2="…さらに Alfred で開く", c3="icon.png を再生成",
+ dev_p="ワークフロー全体は `tools/build.py` にあります。`workflow/info.plist` と `dist/Copy-Finder-Path.alfredworkflow` バンドルはそこから生成されます。",
+ c1="workflow/info.plist + dist/*.alfredworkflow を再生成", c2="…さらに Alfred で開く", c3="workflow/icon.png を再生成", c4="README をすべて再生成",
  uids="UID は固定なので、再インポートすると既存のワークフローがその場で更新されます。",
  hood=f"**内部では**、Run Script ブロックが [Alfred の JSON 形式](https://www.alfredapp.com/help/workflows/utilities/json/)を出力します：{JSON}。`arg` はクリップボードへ、`title`（`AppleLanguages` から選択）は `{{var:title}}` 経由で通知へ渡されます。ワークフローの説明と readme は静的なメタデータのため英語のままです。",
  h_ideas="アイデア / 簡単なカスタマイズ",
@@ -327,7 +339,8 @@ T["ja"] = dict(
 )
 
 T["zh"] = dict(
- back="返回概览",
+ title="从 Finder 复制完整路径",
+ btn_alt="下载工作流",
  pitch="一个快捷键，把 Finder 中所选项目的完整路径直接送进剪贴板。",
  tagline="不用再右键 → 按住 ⌥ → 找“拷贝为路径名称”。选中，按 **⇧⌘C**，粘贴。",
  alt_usage="Finder 选中项已复制到剪贴板", alt_settings="Alfred 中的工作流画布",
@@ -346,8 +359,8 @@ T["zh"] = dict(
  how_p="一段 AppleScript 向 Finder 获取选中项，几行 bash 整理路径，Alfred 把结果放入剪贴板。零依赖，原生 macOS 即可运行。",
  trigger_p="工作流还提供名为 `copy-path` 的 [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/)，可从任何地方触发：",
  h_dev="开发",
- dev_p="整个工作流都在 `build.py` 中，`info.plist` 与 `.alfredworkflow` 包由它生成。",
- c1="重新生成 info.plist 与 Copy-Finder-Path.alfredworkflow", c2="…并在 Alfred 中打开", c3="重新生成 icon.png",
+ dev_p="整个工作流都在 `tools/build.py` 中，`workflow/info.plist` 与 `dist/Copy-Finder-Path.alfredworkflow` 包由它生成。",
+ c1="重新生成 workflow/info.plist + dist/*.alfredworkflow", c2="…并在 Alfred 中打开", c3="重新生成 workflow/icon.png", c4="重新生成所有 README",
  uids="UID 固定不变，重新导入会原地更新已有工作流。",
  hood=f"**内部实现**：Run Script 模块输出 [Alfred JSON 格式](https://www.alfredapp.com/help/workflows/utilities/json/)：{JSON}。`arg` 送入剪贴板，`title`（根据 `AppleLanguages` 选择）通过 `{{var:title}}` 送入通知。工作流的描述和 readme 是静态元数据，保持英文。",
  h_ideas="想法 / 简单改动",
@@ -360,7 +373,8 @@ T["zh"] = dict(
 )
 
 T["el"] = dict(
- back="Επιστροφή στην επισκόπηση",
+ title="Αντιγραφή πλήρους διαδρομής από το Finder",
+ btn_alt="Λήψη του workflow",
  pitch="Μία συντόμευση. Η πλήρης διαδρομή ό,τι έχεις επιλέξει στο Finder, κατευθείαν στο πρόχειρο.",
  tagline="Τέλος το δεξί κλικ → κράτημα ⌥ → ψάξιμο για «Αντιγραφή ως όνομα διαδρομής». Επίλεξε, πάτα **⇧⌘C**, επικόλλησε.",
  alt_usage="Η επιλογή του Finder αντιγράφηκε στο πρόχειρο", alt_settings="Ο καμβάς του workflow στο Alfred",
@@ -379,8 +393,8 @@ T["el"] = dict(
  how_p="Ένα AppleScript ζητά από το Finder την επιλογή, λίγες γραμμές bash καθαρίζουν τις διαδρομές και το Alfred βάζει το αποτέλεσμα στο πρόχειρο. Χωρίς εξαρτήσεις — τρέχει σε ένα καθαρό macOS.",
  trigger_p="Το workflow εκθέτει επίσης ένα [**External Trigger**](https://www.alfredapp.com/help/workflows/triggers/external/) με όνομα `copy-path`, ώστε να το ενεργοποιείς από οπουδήποτε:",
  h_dev="Ανάπτυξη",
- dev_p="Ολόκληρο το workflow βρίσκεται στο `build.py` — το `info.plist` και το πακέτο `.alfredworkflow` παράγονται από αυτό.",
- c1="αναδημιουργεί info.plist + Copy-Finder-Path.alfredworkflow", c2="…και το ανοίγει στο Alfred", c3="αναδημιουργεί το icon.png",
+ dev_p="Ολόκληρο το workflow βρίσκεται στο `tools/build.py` — το `workflow/info.plist` και το πακέτο `dist/Copy-Finder-Path.alfredworkflow` παράγονται από αυτό.",
+ c1="αναδημιουργεί workflow/info.plist + dist/*.alfredworkflow", c2="…και το ανοίγει στο Alfred", c3="αναδημιουργεί το workflow/icon.png", c4="αναδημιουργεί όλα τα README",
  uids="Τα UID είναι σταθερά, οπότε η επανεισαγωγή ενημερώνει το υπάρχον workflow επιτόπου.",
  hood=f"**Στο παρασκήνιο**, το μπλοκ Run Script παράγει [JSON του Alfred](https://www.alfredapp.com/help/workflows/utilities/json/): {JSON}. Το `arg` τροφοδοτεί το πρόχειρο, το `title` (επιλεγμένο από το `AppleLanguages`) την ειδοποίηση μέσω `{{var:title}}`. Η περιγραφή και το readme του workflow είναι στατικά μεταδεδομένα και παραμένουν στα Αγγλικά.",
  h_ideas="Ιδέες / εύκολες παραλλαγές",
@@ -393,8 +407,7 @@ T["el"] = dict(
 )
 
 for code, _, _ in LANGS:
-    back = "← [" + T[code]["back"] + "](../README.md)"
-    body = TEMPLATE.format(nav=NAV.format(back=back), trigger=TRIGGER, **T[code])
-    with open(os.path.join(OUT, f"README.{code}.md"), "w") as f:
+    body = TEMPLATE.format(nav=nav(code), trigger=TRIGGER, code=code, **T[code])
+    with open(os.path.join(OUT, fname(code)), "w") as f:
         f.write(body)
-    print("→ README/README.%s.md" % code)
+    print("→ " + fname(code))

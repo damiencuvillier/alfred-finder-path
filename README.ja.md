@@ -1,14 +1,17 @@
-<img src="../icon.png" width="128" align="right" alt="Copy Finder Path icon">
+<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/ja.png" width="240" align="right" alt="ワークフローをダウンロード"></a>
 
-# Copy Finder Path — [Alfred](https://www.alfredapp.com) Workflow
+<table>
+  <tr><td align="center"><a href="README.md"><img src="assets/flags/en.png" width="40" alt="English"></a><br><a href="README.md"><sub>English</sub></a></td><td align="center"><a href="README.fr.md"><img src="assets/flags/fr.png" width="40" alt="Français"></a><br><a href="README.fr.md"><sub>Français</sub></a></td><td align="center"><a href="README.de.md"><img src="assets/flags/de.png" width="40" alt="Deutsch"></a><br><a href="README.de.md"><sub>Deutsch</sub></a></td><td align="center"><a href="README.es.md"><img src="assets/flags/es.png" width="40" alt="Español"></a><br><a href="README.es.md"><sub>Español</sub></a></td><td align="center"><a href="README.it.md"><img src="assets/flags/it.png" width="40" alt="Italiano"></a><br><a href="README.it.md"><sub>Italiano</sub></a></td><td align="center"><a href="README.pt.md"><img src="assets/flags/pt.png" width="40" alt="Português"></a><br><a href="README.pt.md"><sub>Português</sub></a></td><td align="center"><a href="README.zh.md"><img src="assets/flags/zh.png" width="40" alt="中文"></a><br><a href="README.zh.md"><sub>中文</sub></a></td><td align="center"><a href="README.el.md"><img src="assets/flags/el.png" width="40" alt="Ελληνικά"></a><br><a href="README.el.md"><sub>Ελληνικά</sub></a></td></tr>
+</table>
 
-← [概要に戻る](../README.md)
+###### ALFRED WORKFLOW
+# Finder からフルパスをコピー
 
 **ホットキーひとつ。Finder で選択した項目のフルパスを、そのままクリップボードへ。**
 
 右クリック → ⌥ を押しながら → 「パス名をコピー」を探す、はもう不要。選択して **⇧⌘C**、貼り付けるだけ。
 
-<img src="../screenshots/usage.png" width="640" alt="Finder の選択項目がクリップボードにコピーされた様子">
+<img src="screenshots/usage.png" width="640" alt="Finder の選択項目がクリップボードにコピーされた様子">
 
 ## ✨ できること
 
@@ -28,7 +31,7 @@
 
 ## 🔧 仕組み
 
-<img src="../screenshots/settings.png" width="640" alt="Alfred のワークフローキャンバス">
+<img src="screenshots/settings.png" width="640" alt="Alfred のワークフローキャンバス">
 
 AppleScript が Finder に選択項目を問い合わせ、数行の bash がパスを整え、Alfred が結果をクリップボードに入れます。依存なし。素の macOS で動きます。
 
@@ -40,12 +43,13 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 
 ## 🛠 開発
 
-ワークフロー全体は `build.py` にあります。`info.plist` と `.alfredworkflow` バンドルはそこから生成されます。
+ワークフロー全体は `tools/build.py` にあります。`workflow/info.plist` と `dist/Copy-Finder-Path.alfredworkflow` バンドルはそこから生成されます。
 
 ```bash
-./build.py            # info.plist と Copy-Finder-Path.alfredworkflow を再生成
-./build.py --install  # …さらに Alfred で開く
-./make_icon.py        # icon.png を再生成
+tools/build.py            # workflow/info.plist + dist/*.alfredworkflow を再生成
+tools/build.py --install  # …さらに Alfred で開く
+tools/make-icon.py        # workflow/icon.png を再生成
+tools/make-readmes.py     # README をすべて再生成
 ```
 
 UID は固定なので、再インポートすると既存のワークフローがその場で更新されます。
