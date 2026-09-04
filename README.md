@@ -46,8 +46,8 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 The whole workflow lives in `tools/build.py` — `workflow/info.plist` and `dist/Copy-Finder-Path.alfredworkflow` are generated from it.
 
 ```bash
-tools/build.py            # regenerate workflow/info.plist + dist/*.alfredworkflow
-tools/build.py --install  # …and open it in Alfred
+./build                   # regenerate workflow/info.plist + dist/*.alfredworkflow
+./build --install         # …and open it in Alfred
 tools/make-icon.py        # regenerate workflow/icon.png
 tools/make-readmes.py     # regenerate all README files
 ```
@@ -61,6 +61,8 @@ UIDs are stable, so re-importing updates the existing workflow in place.
 - Shell-escaped paths (`My\ Folder`): swap the final `sed` for `sed -E 's/([ ()&])/\\\1/g'`
 - `file://` URLs, or paths relative to `$HOME` (`~/…`)
 - Traditional Chinese for `zh-TW` / `zh-HK` by matching the full locale
+
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org) [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://claude.com)
 
 ## 📚 References
 
@@ -76,3 +78,5 @@ MIT.
 ---
 
 Made by <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues and PRs welcome
+
+*This workflow's code was generated with the help of an LLM (Claude Code) — designed and tested by a human ;-)*

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Regenerate workflow/info.plist and package dist/Copy-Finder-Path.alfredworkflow.
+# Usage: ./build [--install]
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")"
+exec tools/build.py "$@"

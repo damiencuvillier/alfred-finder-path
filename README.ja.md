@@ -46,8 +46,8 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 ワークフロー全体は `tools/build.py` にあります。`workflow/info.plist` と `dist/Copy-Finder-Path.alfredworkflow` バンドルはそこから生成されます。
 
 ```bash
-tools/build.py            # workflow/info.plist + dist/*.alfredworkflow を再生成
-tools/build.py --install  # …さらに Alfred で開く
+./build                   # workflow/info.plist + dist/*.alfredworkflow を再生成
+./build --install         # …さらに Alfred で開く
 tools/make-icon.py        # workflow/icon.png を再生成
 tools/make-readmes.py     # README をすべて再生成
 ```
@@ -61,6 +61,8 @@ UID は固定なので、再インポートすると既存のワークフロー�
 - シェル用にエスケープしたパス（`My\ Folder`）：最後の `sed` を `sed -E 's/([ ()&])/\\\1/g'` に置き換え
 - `file://` URL、または `$HOME` からの相対パス（`~/…`）
 - `zh-TW` / `zh-HK` はロケール全体を判定して繁体字中国語に
+
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org) [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://claude.com)
 
 ## 📚 参考リンク
 
@@ -76,3 +78,5 @@ MIT.
 ---
 
 作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue や PR を歓迎します
+
+*このワークフローのコードは LLM（Claude Code）の支援を受けて生成されましたが、設計とテストは人間が行っています ;-)*

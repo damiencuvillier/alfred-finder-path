@@ -214,7 +214,10 @@ No selection: the folder of the frontmost Finder window is copied.
 Multiple items: one path per line.
 
 Default hotkey: ⇧⌘C (double-click the Hotkey trigger to change it).
-The notification title follows your macOS language.</string>
+The notification title follows your macOS language.
+
+This workflow's code was generated with the help of an LLM (Claude Code) —
+designed and tested by a human ;-)</string>
 	<key>uidata</key>
 	<dict>
 		<key>A1C0F1E0-0001-4A00-8000-C0F1DE20A7E5</key>

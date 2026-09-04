@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generate workflow/info.plist and package dist/Copy-Finder-Path.alfredworkflow.
 Usage: tools/build.py [--install]
+
+This workflow's code was generated with the help of an LLM (Claude Code) —
+designed and tested by a human ;-)
 """
 import os, plistlib, subprocess, sys, zipfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -64,7 +67,9 @@ WORKFLOW = {
                "No selection: the folder of the frontmost Finder window is copied.\n"
                "Multiple items: one path per line.\n\n"
                "Default hotkey: ⇧⌘C (double-click the Hotkey trigger to change it).\n"
-               "The notification title follows your macOS language."),
+               "The notification title follows your macOS language.\n\n"
+               "This workflow's code was generated with the help of an LLM (Claude Code) —\n"
+               "designed and tested by a human ;-)"),
     "version": "1.0",
     "webaddress": "https://gotan.dev",
     "objects": [

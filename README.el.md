@@ -46,8 +46,8 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 Ολόκληρο το workflow βρίσκεται στο `tools/build.py` — το `workflow/info.plist` και το πακέτο `dist/Copy-Finder-Path.alfredworkflow` παράγονται από αυτό.
 
 ```bash
-tools/build.py            # αναδημιουργεί workflow/info.plist + dist/*.alfredworkflow
-tools/build.py --install  # …και το ανοίγει στο Alfred
+./build                   # αναδημιουργεί workflow/info.plist + dist/*.alfredworkflow
+./build --install         # …και το ανοίγει στο Alfred
 tools/make-icon.py        # αναδημιουργεί το workflow/icon.png
 tools/make-readmes.py     # αναδημιουργεί όλα τα README
 ```
@@ -61,6 +61,8 @@ tools/make-readmes.py     # αναδημιουργεί όλα τα README
 - Διαδρομές με escape για shell (`My\ Folder`): αντικατάστησε το τελευταίο `sed` με `sed -E 's/([ ()&])/\\\1/g'`
 - `file://` URL, ή διαδρομές σχετικές με το `$HOME` (`~/…`)
 - Παραδοσιακά Κινεζικά για `zh-TW` / `zh-HK` ελέγχοντας ολόκληρο το locale
+
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org) [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://claude.com)
 
 ## 📚 Αναφορές
 
@@ -76,3 +78,5 @@ MIT.
 ---
 
 Από τον <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues και PRs ευπρόσδεκτα
+
+*Ο κώδικας αυτού του workflow δημιουργήθηκε με τη βοήθεια ενός LLM (Claude Code) — σχεδιάστηκε και δοκιμάστηκε από άνθρωπο ;-)*

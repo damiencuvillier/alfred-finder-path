@@ -21,6 +21,11 @@ def nav(current):
 TRIGGER = 'tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" in workflow "dev.gotan.alfred.copyfinderpath"'
 JSON = '`{"alfredworkflow":{"arg":"<paths>","variables":{"title":"<localized title>"}}}`'
 
+BADGES = (
+    "[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org) "
+    "[![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://claude.com)"
+)
+
 TEMPLATE = """<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="assets/download/{code}.png" width="240" align="right" alt="{btn_alt}"></a>
 
 {nav}
@@ -67,8 +72,8 @@ TEMPLATE = """<a href="dist/Copy-Finder-Path.alfredworkflow?raw=true"><img src="
 {dev_p}
 
 ```bash
-tools/build.py            # {c1}
-tools/build.py --install  # {c2}
+./build                   # {c1}
+./build --install         # {c2}
 tools/make-icon.py        # {c3}
 tools/make-readmes.py     # {c4}
 ```
@@ -82,6 +87,8 @@ tools/make-readmes.py     # {c4}
 - {idea1}
 - {idea2}
 - {idea3}
+
+{badges}
 
 ## 📚 {h_refs}
 
@@ -97,6 +104,8 @@ MIT.
 ---
 
 {footer}
+
+*{ai_notice}*
 """
 
 T = {}
@@ -131,6 +140,7 @@ T["en"] = dict(
  h_refs="References", ref_docs="Workflows documentation", ref_vars="Workflow variables", ref_forum="Alfred Community Forum",
  h_license="License",
  footer="Made by <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues and PRs welcome",
+ ai_notice="This workflow's code was generated with the help of an LLM (Claude Code) — designed and tested by a human ;-)",
 )
 
 T["fr"] = dict(
@@ -164,6 +174,7 @@ T["fr"] = dict(
  h_refs="Références", ref_docs="Documentation des workflows", ref_vars="Variables de workflow", ref_forum="Forum de la communauté Alfred",
  h_license="Licence",
  footer="Réalisé par <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues et PRs bienvenues",
+ ai_notice="Le code de ce workflow a été généré avec l'aide d'un LLM (Claude Code) — conçu et testé par un humain ;-)",
 )
 
 T["de"] = dict(
@@ -197,6 +208,7 @@ T["de"] = dict(
  h_refs="Referenzen", ref_docs="Workflow-Dokumentation", ref_vars="Workflow-Variablen", ref_forum="Alfred Community Forum",
  h_license="Lizenz",
  footer="Erstellt von <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues und PRs willkommen",
+ ai_notice="Der Code dieses Workflows wurde mit Unterstützung eines LLM (Claude Code) generiert — entworfen und getestet von einem Menschen ;-)",
 )
 
 T["es"] = dict(
@@ -230,6 +242,7 @@ T["es"] = dict(
  h_refs="Referencias", ref_docs="Documentación de workflows", ref_vars="Variables de workflow", ref_forum="Foro de la comunidad Alfred",
  h_license="Licencia",
  footer="Hecho por <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues y PRs bienvenidos",
+ ai_notice="El código de este workflow se generó con la ayuda de un LLM (Claude Code) — diseñado y probado por un humano ;-)",
 )
 
 T["it"] = dict(
@@ -263,6 +276,7 @@ T["it"] = dict(
  h_refs="Riferimenti", ref_docs="Documentazione dei workflow", ref_vars="Variabili di workflow", ref_forum="Forum della community Alfred",
  h_license="Licenza",
  footer="Realizzato da <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue e PR benvenute",
+ ai_notice="Il codice di questo workflow è stato generato con l'aiuto di un LLM (Claude Code) — progettato e testato da un essere umano ;-)",
 )
 
 T["pt"] = dict(
@@ -296,6 +310,7 @@ T["pt"] = dict(
  h_refs="Referências", ref_docs="Documentação de workflows", ref_vars="Variáveis de workflow", ref_forum="Fórum da comunidade Alfred",
  h_license="Licença",
  footer="Feito por <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues e PRs bem-vindos",
+ ai_notice="O código deste workflow foi gerado com a ajuda de um LLM (Claude Code) — concebido e testado por um humano ;-)",
 )
 
 T["ja"] = dict(
@@ -329,6 +344,7 @@ T["ja"] = dict(
  h_refs="参考リンク", ref_docs="ワークフローのドキュメント", ref_vars="ワークフロー変数", ref_forum="Alfred コミュニティフォーラム",
  h_license="ライセンス",
  footer="作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issue や PR を歓迎します",
+ ai_notice="このワークフローのコードは LLM（Claude Code）の支援を受けて生成されましたが、設計とテストは人間が行っています ;-)",
 )
 
 T["zh"] = dict(
@@ -362,6 +378,7 @@ T["zh"] = dict(
  h_refs="参考", ref_docs="工作流文档", ref_vars="工作流变量", ref_forum="Alfred 社区论坛",
  h_license="许可证",
  footer="作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · 欢迎提交 Issue 和 PR",
+ ai_notice="此工作流的代码由 LLM（Claude Code）辅助生成，由人类设计和测试 ;-)",
 )
 
 T["el"] = dict(
@@ -395,10 +412,11 @@ T["el"] = dict(
  h_refs="Αναφορές", ref_docs="Τεκμηρίωση workflows", ref_vars="Μεταβλητές workflow", ref_forum="Φόρουμ κοινότητας Alfred",
  h_license="Άδεια",
  footer="Από τον <a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · Issues και PRs ευπρόσδεκτα",
+ ai_notice="Ο κώδικας αυτού του workflow δημιουργήθηκε με τη βοήθεια ενός LLM (Claude Code) — σχεδιάστηκε και δοκιμάστηκε από άνθρωπο ;-)",
 )
 
 for code, _, _ in LANGS:
-    body = TEMPLATE.format(nav=nav(code), trigger=TRIGGER, code=code, title=TITLE[code], **T[code])
+    body = TEMPLATE.format(nav=nav(code), trigger=TRIGGER, code=code, title=TITLE[code], badges=BADGES, **T[code])
     with open(os.path.join(OUT, fname(code)), "w") as f:
         f.write(body)
     print("→ " + fname(code))

@@ -46,8 +46,8 @@ tell application id "com.runningwithcrayons.Alfred" to run trigger "copy-path" i
 整个工作流都在 `tools/build.py` 中，`workflow/info.plist` 与 `dist/Copy-Finder-Path.alfredworkflow` 包由它生成。
 
 ```bash
-tools/build.py            # 重新生成 workflow/info.plist + dist/*.alfredworkflow
-tools/build.py --install  # …并在 Alfred 中打开
+./build                   # 重新生成 workflow/info.plist + dist/*.alfredworkflow
+./build --install         # …并在 Alfred 中打开
 tools/make-icon.py        # 重新生成 workflow/icon.png
 tools/make-readmes.py     # 重新生成所有 README
 ```
@@ -61,6 +61,8 @@ UID 固定不变，重新导入会原地更新已有工作流。
 - Shell 转义路径（`My\ Folder`）：把最后的 `sed` 换成 `sed -E 's/([ ()&])/\\\1/g'`
 - `file://` URL，或相对于 `$HOME` 的路径（`~/…`）
 - 判断完整 locale，为 `zh-TW` / `zh-HK` 提供繁体中文
+
+[![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org) [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://claude.com)
 
 ## 📚 参考
 
@@ -76,3 +78,5 @@ MIT.
 ---
 
 作者：<a href='https://damiencuvillier.com' target='_blank' rel='noopener'>Damien</a> · 欢迎提交 Issue 和 PR
+
+*此工作流的代码由 LLM（Claude Code）辅助生成，由人类设计和测试 ;-)*
